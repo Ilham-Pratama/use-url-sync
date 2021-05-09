@@ -4,6 +4,5 @@
   "description": "useUrlState is a react state hook that retrieves values directly from URL query string",
   "main": "src/index.ts",
   "repository": "https://github.com/Ilham-Pratama/use-url-state.git",
-  "author": "Ilham Pratama",
-  "license": "MIT"
+  "author": "Ilham Pratama"
 }
