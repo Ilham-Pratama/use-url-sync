@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Main CI
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ on:
     branches:
       - master
 jobs:
-  Explore-GitHub-Actions:
+  Build-Test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code 🔎
@@ -17,4 +17,3 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: yarn lint
-      - run: yarn prettier
