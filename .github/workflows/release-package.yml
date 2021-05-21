@@ -16,8 +16,7 @@ jobs:
         with:
           node-version: 13
           registry-url: https://npm.pkg.github.com/
-      - run: npm ci
-      - run: npm test
+      - run: yarn build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
