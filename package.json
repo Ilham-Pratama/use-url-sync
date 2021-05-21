@@ -6,10 +6,10 @@
   "homepage": "https://github.com/Ilham-Pratama/use-url-state.git",
   "author": "Ilham Pratama <ilhamprt5@gmail.com> (https://github.com/Ilham-Pratama)",
   "license": "MIT",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "./dist/src/**"
+    "./dist/**"
   ],
   "scripts": {
     "lint": "yarn eslint src --ext .ts,.tsx",
