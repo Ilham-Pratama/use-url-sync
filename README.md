@@ -1,10 +1,11 @@
 # use-url-sync
 
-_use-url-sync_ is a set of tools that help you sync your state to page url.
+**use-url-sync** is a set of tools that help you sync your state to page url.
 Along with with this package, you can do some awesome stuff, such as:
 
 - Get value from url query string, that returns `useState` hook function
 - Sync your states's values to url using `useUrlSync` hook function
+- Get synced url directly from `getUrlString` function
 
 ## 💾 Installation
 

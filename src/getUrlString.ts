@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import qs from 'qs';
 
-const getUrlState = <S extends Record<string | number, any>>(
+const getUrlString = <S extends Record<string | number, any>>(
   states: S
 ): string => {
   const { pathname } = window.location;
@@ -11,4 +11,4 @@ const getUrlState = <S extends Record<string | number, any>>(
   return parsed;
 };
 
-export default getUrlState;
+export default getUrlString;
