@@ -1,5 +1,5 @@
 import useUrlState from './useUrlState';
-import useSyncUrl from './useSyncUrl';
-import parseStateToUrl from './parseStateToUrl';
+import useSyncUrl from './useUrlSync';
+import getUrlString from './getUrlString';
 
-export { useUrlState, useSyncUrl, parseStateToUrl };
+export { useUrlState, useSyncUrl, getUrlString };

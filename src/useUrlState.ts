@@ -2,12 +2,12 @@
 import { useState } from 'react';
 import qs from 'qs';
 
-type parsedType = string | number | qs.ParsedQs | string[] | qs.ParsedQs[];
+type ParsedTypes = string | number | qs.ParsedQs | string[] | qs.ParsedQs[];
 
 interface UseUriStateInterface {
   name: string;
   defaultValue: any;
-  onValueDefined: (parsedValue: parsedType) => any;
+  onValueDefined: (parsedValue: ParsedTypes) => any;
   parseToNumber: boolean;
 }
 
