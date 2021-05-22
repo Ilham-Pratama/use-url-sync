@@ -19,7 +19,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "./dist",
-    "types": ["node"],
     "target": "esnext",
     "typeRoots": ["./types", "./node_modules/@types"]
   },

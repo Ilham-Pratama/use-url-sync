@@ -4,17 +4,17 @@ import { useEffect } from 'react';
 import qs from 'qs';
 import areEqual from './libs/areEqual';
 
-interface UseSyncUrlProps<S> {
+interface useUrlSyncProps<S> {
   states: S;
   onStatesUpdate: (nextPath: string) => void;
   ignoreStates?: Readonly<Partial<Record<keyof S, any>>>;
 }
 
-const useSyncUrl = <S extends Record<string | number, any>>({
+const useUrlSync = <S extends Record<string | number, any>>({
   states,
   onStatesUpdate,
   ignoreStates
-}: UseSyncUrlProps<S>): void => {
+}: useUrlSyncProps<S>): void => {
   useEffect(() => {
     const cleanedStates: S = { ...states };
 
@@ -35,4 +35,4 @@ const useSyncUrl = <S extends Record<string | number, any>>({
   }, [states]);
 };
 
-export default useSyncUrl;
+export default useUrlSync;
