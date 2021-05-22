@@ -1,7 +1,7 @@
 {
   "name": "use-url-sync",
   "version": "1.0.2",
-  "description": "url-url-sync is a react hook that helps you sync your states to url",
+  "description": "use-url-sync is a utility package that helps you sync your states to url without hassle",
   "repository": "https://github.com/Ilham-Pratama/use-url-state.git",
   "author": "Ilham Pratama <ilhamprt5@gmail.com> (https://github.com/Ilham-Pratama)",
   "license": "MIT",
