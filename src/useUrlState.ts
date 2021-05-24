@@ -2,36 +2,28 @@
 import { useState } from 'react';
 import qs from 'qs';
 
-type ParsedTypes = string | number | qs.ParsedQs | string[] | qs.ParsedQs[];
-
-interface UseUriStateInterface {
+interface UseUriStateInterface<T> {
   name: string;
-  defaultValue: any;
-  onValueDefined: (parsedValue: ParsedTypes) => any;
-  parseToNumber: boolean;
+  defaultValue: T;
+  onExists?: (parsedValue: any) => T;
 }
 
-type UseUriStateReturnInterface = [
-  any,
-  (value: any | ((prevValue: any) => any)) => void
+type UseUriStateReturnInterface<T> = [
+  T,
+  (value: T | ((prevValue: T) => T)) => void
 ];
 
-function useUrlState({
+function useUrlState<T extends unknown>({
   name,
   defaultValue,
-  onValueDefined,
-  parseToNumber
-}: UseUriStateInterface): UseUriStateReturnInterface {
-  return useState(() => {
+  onExists
+}: UseUriStateInterface<T>): UseUriStateReturnInterface<T> {
+  return useState<T>(() => {
     const { search } = window.location;
     const initialState = qs.parse(search, { ignoreQueryPrefix: true });
-    const valueFromUrl = initialState[name];
-    if (!valueFromUrl) return defaultValue;
-    const parsedValue =
-      parseToNumber && typeof valueFromUrl === 'string'
-        ? parseInt(valueFromUrl, 10)
-        : valueFromUrl;
-    return onValueDefined ? onValueDefined(parsedValue) : parsedValue;
+    const urlValue = initialState[name];
+    if (!urlValue) return defaultValue;
+    return onExists ? onExists(urlValue) : (urlValue as T);
   });
 }
 

@@ -7,7 +7,7 @@ const getUrlString = <S extends Record<string | number, any>>(
   const { pathname } = window.location;
   if (typeof states !== 'object') return pathname;
   const queryUrl = qs.stringify(states);
-  const parsed = `${pathname}?${queryUrl}`;
+  const parsed = `${pathname}${queryUrl ? `?${queryUrl}` : ''}`;
   return parsed;
 };
 
