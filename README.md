@@ -21,12 +21,12 @@ const App = () => {
 
   /* Getting the value from url */
   const [experience, setExperience] = useUrlState({
-    /* Name in the url query string */
+    /* The index to get the value from */
     name: 'experience',
-    /* Optional, Read function */
+    /* Optional, Return function if the value exists */
     onExists: thisId => parseInt(thisId, 10),
     /*
-      Optional, Default value if specified name does not exist in the url 
+      Optional, Default value if the value does not exist
     */
     defaultValue: 0
   });
