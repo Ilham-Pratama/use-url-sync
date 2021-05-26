@@ -7,6 +7,6 @@ module.exports = {
   preset: 'ts-jest',
   testLocationInResults: true,
   testRegex: '(/test/.*|(\\.|/)(test|spec))\\.[jt]sx?$',
-  testURL: 'https://example.com/user?id=1&name=andy&isEmployee=false',
+  testURL: 'https://example.com/user?name=andy&experience=1&isEmployee=false',
   verbose: true
 };

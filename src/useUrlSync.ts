@@ -2,16 +2,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import qs from 'qs';
-import isStateValid from './libs/isStateValid';
+import shouldIgnoreState from './libs/shouldIgnoreState';
 
-interface UseUrlSyncProps<S> {
+interface IUseUrlSyncProps<S> {
   states: S;
-  ignore?: { [P in keyof S]?: S[P] | ((s: S[P]) => any) };
+  ignore?: { [P in keyof S]?: (s: S[P]) => boolean };
   onStatesUpdated?: { [P in keyof S]?: (s: S[P]) => any };
 }
 
 const useUrlSync = <S extends Record<string | number, any>>(
-  { states, ignore = {}, onStatesUpdated = {} }: UseUrlSyncProps<S>,
+  { states, ignore = {}, onStatesUpdated = {} }: IUseUrlSyncProps<S>,
   onUrlGenerated: (nextPath: string) => void
 ): void => {
   useEffect(() => {
@@ -19,24 +19,21 @@ const useUrlSync = <S extends Record<string | number, any>>(
 
     Object.keys(states).forEach(key => {
       const value = states[key];
+      const ignorerFunction = ignore[key];
 
-      // Checks state's value validity
-      // 'ignore' object may possibly be undefined
-      if (
-        (ignore.hasOwnProperty(key) && isStateValid(value, ignore[key])) ||
-        typeof value === 'number' ||
-        Boolean(value)
-      ) {
-        // Checks if this state has a read function
+      /* 
+        Checks for state's value validity
+      */
+      if (!ignorerFunction || !shouldIgnoreState(value, ignorerFunction)) {
+        /* Checks if this state has a read function */
         const thisStateOnChange = onStatesUpdated[key];
-        if (typeof thisStateOnChange === 'function') {
-          const finalValue = thisStateOnChange(value);
-          Object.assign(cleanedStates, { [key]: finalValue });
+        if (thisStateOnChange) {
+          Object.assign(cleanedStates, { [key]: thisStateOnChange(value) });
         } else Object.assign(cleanedStates, { [key]: value });
       }
     });
 
-    // Parsing it to url string using 'qs' library
+    /* Parsing it to url string using 'qs' library */
     const queryUrl = qs.stringify(cleanedStates);
     const nextPath = `${window.location.pathname}?${queryUrl}`;
 
