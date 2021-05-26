@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import qs from 'qs';
-import shouldIgnoreState from './libs/shouldIgnoreState';
 
 interface IUseUrlSyncProps<S> {
   states: S;
@@ -19,12 +18,16 @@ const useUrlSync = <S extends Record<string | number, any>>(
 
     Object.keys(states).forEach(key => {
       const value = states[key];
-      const ignorerFunction = ignore[key];
+      const shouldIgnoreState = ignore[key];
 
       /* 
         Checks for state's value validity
       */
-      if (!ignorerFunction || !shouldIgnoreState(value, ignorerFunction)) {
+      if (
+        shouldIgnoreState
+          ? !shouldIgnoreState(value)
+          : value !== null && value !== undefined && value !== ''
+      ) {
         /* Checks if this state has a read function */
         const thisStateOnChange = onStatesUpdated[key];
         if (thisStateOnChange) {
