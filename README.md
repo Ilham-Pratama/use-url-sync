@@ -1,5 +1,7 @@
 # use-url-sync
 
+![npm](https://img.shields.io/npm/v/use-url-sync) ![CI](https://github.com/Ilham-Pratama/use-url-sync/actions/workflows/main-ci.yml/badge.svg) ![minizip](https://badgen.net/bundlephobia/minzip/use-url-sync)
+
 **use-url-sync** is a set of tools that help you sync your state to page url.
 Along with with this package, you can do some awesome stuff, such as:
 
