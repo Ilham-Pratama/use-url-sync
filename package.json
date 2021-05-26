@@ -1,6 +1,6 @@
 {
   "name": "use-url-sync",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "use-url-sync is a utility package that helps you sync your states to url without hassle",
   "repository": "https://github.com/Ilham-Pratama/use-url-state.git",
   "author": "Ilham Pratama <ilhamprt5@gmail.com> (https://github.com/Ilham-Pratama)",
@@ -11,10 +11,9 @@
     "dist/**"
   ],
   "scripts": {
-    "lint": "yarn eslint src --ext .ts,.tsx",
-    "lint:fix": "yarn eslint src --ext .ts,.tsx --fix",
     "build": "tsc",
-    "prettier": "prettier --write ."
+    "lint": "yarn eslint src --ext .ts,.tsx",
+    "test": "jest"
   },
   "keywords": [
     "react",
@@ -28,7 +27,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.6",
+    "@testing-library/react": "^11.2.7",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.0.2",
     "@types/qs": "^6.9.6",
@@ -41,6 +40,8 @@
     "jest": "^26.6.3",
     "prettier": "^2.3.0",
     "qs": "^6.10.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "ts-jest": "^26.5.6",
     "typescript": "^4.2.4"
   },
