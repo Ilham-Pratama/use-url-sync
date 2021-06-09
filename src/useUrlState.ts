@@ -13,7 +13,7 @@ type UseUriStateReturnInterface<T> = [
   (value: T | ((prevValue: T) => T)) => void
 ];
 
-function useUrlState<T extends unknown>({
+function useUrlState<T extends any>({
   name,
   defaultValue,
   onExists

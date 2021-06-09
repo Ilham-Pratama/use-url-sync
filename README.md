@@ -2,12 +2,11 @@
 
 ![npm](https://img.shields.io/npm/v/use-url-sync) ![CI](https://github.com/Ilham-Pratama/use-url-sync/actions/workflows/main-ci.yml/badge.svg) ![minizip](https://badgen.net/bundlephobia/minzip/use-url-sync)
 
-**use-url-sync** is a set of tools that help you sync your state to page url.
+**use-url-sync** is a set of tools that help you sync your state to URL.
 Along with this package, you can do some awesome stuff, such as:
 
-- Use custom hook `useUrlState` to get value from url query string
-- Sync your states's values to url using `useUrlSync`
-- Get synced url directly from `getUrlString` function
+- Use state hook `useUrlState` to get value from url query string
+- Sync your states's values to url using `useUrlSync` or `getUrlString`
 
 ## 🖥️ Example
 
@@ -19,16 +18,13 @@ import { useSyncUrl, useUrlState } from 'use-url-sync';
 const App = () => {
   const location = useLocation();
 
-  /* Getting the value from url */
+  /* Retrive value from URL */
   const [experience, setExperience] = useUrlState({
-    /* The index to get the value from */
+    /* Query string index */
     name: 'experience',
-    /* Optional, Return function if the value exists */
-    onExists: thisId => parseInt(thisId, 10),
-    /*
-      Optional, Default value if the value does not exist
-    */
-    defaultValue: 0
+    defaultValue: 0,
+    /* Optional, Return function if value from URL defined */
+    onExists: thisId => parseInt(thisId, 10)
   });
   const [name, setName] = useUrlState({
     name: 'name',
@@ -36,31 +32,30 @@ const App = () => {
   });
   const [isEmployee, setIsEmployee] = useUrlState({
     name: 'isEmployee',
-    onExists: v => v === 'true',
-    defaultValue: false
+    defaultValue: false,
+    onExists: v => v === 'true'
   });
 
   useUrlSync(
     {
-      /* Values those will be kept synced to url */
+      /* States to be synced to URL */
       states: {
         name,
         experience,
         isEmployee
       },
-      /* How the states will be displayed in url */
+      /* How the states will be displayed in URL */
       onStatesUpdated: {
         isEmployee: v => (v ? 'true' : 'false')
       },
-      /* The states those will be skipped if the return value is 'true' */
+      /* States to be skipped */
       ignore: {
         experience: experience => experience === 0
       }
     },
-    /* Updating current url */
-    updatedPath => {
-      /* In this example, we use 'useLocation' from react-router */
-      location.replace(updatedPath);
+    updatedUrl => {
+      /* In this example, we use 'useLocation' to update the URL */
+      location.replace(updatedUrl);
     }
   );
 
@@ -73,7 +68,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <>
       <div id="experience-togglers">
         <button type="button" id="increase-experience" onClick={increaseExp}>
           + 1
@@ -88,7 +83,7 @@ const App = () => {
       <p id="current-experience">{experience}</p>
       <p id="current-name">{name}</p>
       <p id="current-isEmployee">{isEmployee ? 'true' : 'false'}</p>
-    </div>
+    </>
   );
 };
 ```
