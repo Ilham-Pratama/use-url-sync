@@ -1,9 +1,7 @@
 import '@testing-library/jest-dom';
 import React, { useState } from 'react';
 import { fireEvent, render } from '@testing-library/react';
-
-import useUrlState from '../src/useUrlState';
-import useUrlSync from '../src/useUrlSync';
+import { useUrlSync, useUrlState } from '../src';
 
 const NAMES = {
   andy: 'andy',
@@ -39,7 +37,7 @@ const App = () => {
         isEmployee: v => (v ? 'true' : 'false')
       },
       ignore: {
-        experience: experience => experience === 0
+        experience: e => e === 0
       }
     },
     path => {
@@ -47,13 +45,13 @@ const App = () => {
     }
   );
 
-  const increaseExp = () => setExperience(experience => experience + 1);
+  const increaseExp = () => setExperience(e => e + 1);
 
-  const decreaseExp = () => setExperience(experience => experience - 1);
+  const decreaseExp = () => setExperience(e => e - 1);
 
   const onToggleName = () => {
-    setName((thisName: string | undefined) => {
-      return thisName === NAMES.andy ? NAMES.harold : NAMES.andy;
+    setName((currentName: string | undefined) => {
+      return currentName === NAMES.andy ? NAMES.harold : NAMES.andy;
     });
   };
 
