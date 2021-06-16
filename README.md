@@ -5,10 +5,12 @@
 **use-url-sync** is a set of tools that help you sync your state to URL.
 Along with this package, you can do some awesome stuff, such as:
 
-- Use state hook `useUrlState` to get value from url query string
-- Sync your states's values to url using `useUrlSync` or `getUrlString`
+- Use state hook `useUrlState` to get value from current page path
+- Sync your states's values to path using `useUrlSync` or `getUrlString`
 
 ## 🖥️ Example
+
+Current path: `/user?name=andy&page=1&isEmployee=false`
 
 ```jsx
 import React from 'react';
@@ -18,13 +20,11 @@ import { useSyncUrl, useUrlState } from 'use-url-sync';
 const App = () => {
   const location = useLocation();
 
-  /* Retrive value from URL */
-  const [experience, setExperience] = useUrlState({
-    /* Query string index */
-    name: 'experience',
+  /* Retrieve value from URL */
+  const [page, setPage] = useUrlState({
+    name: 'page',
     defaultValue: 0,
-    /* Optional, Return function if value from URL defined */
-    onExists: thisId => parseInt(thisId, 10)
+    onExists: p => parseInt(p, 10)
   });
   const [name, setName] = useUrlState({
     name: 'name',
@@ -36,32 +36,31 @@ const App = () => {
     onExists: v => v === 'true'
   });
 
+  /* Sync states to path */
   useUrlSync(
     {
-      /* States to be synced to URL */
       states: {
         name,
-        experience,
+        page,
         isEmployee
       },
-      /* How the states will be displayed in URL */
+      /* How the states will be displayed */
       onStatesUpdated: {
         isEmployee: v => (v ? 'true' : 'false')
       },
-      /* States to be skipped */
+      /* Ignored conditions */
       ignore: {
-        experience: experience => experience === 0
+        page: p => p === 0
       }
     },
-    updatedUrl => {
-      /* In this example, we use 'useLocation' to update the URL */
-      location.replace(updatedUrl);
+    nextPath => {
+      location.replace(nextPath);
     }
   );
 
-  const increaseExp = () => setExperience(experience => experience + 1);
+  const incrementPage = () => setPage(p => p + 1);
 
-  const decreaseExp = () => setExperience(experience => experience - 1);
+  const decrementPage = () => setPage(p => p - 1);
 
   const toggleEmployeeStatus = () => {
     setIsEmployee(v => !v);
@@ -69,18 +68,18 @@ const App = () => {
 
   return (
     <>
-      <div id="experience-togglers">
-        <button type="button" id="increase-experience" onClick={increaseExp}>
+      <div id="page-togglers">
+        <button type="button" id="increase-page" onClick={incrementPage}>
           + 1
         </button>
-        <button type="button" id="decrease-experience" onClick={decreaseExp}>
+        <button type="button" id="decrease-page" onClick={decrementPage}>
           - 1
         </button>
       </div>
       <button type="button" id="toggle-status" onClick={toggleEmployeeStatus}>
         Toggle Employee Status
       </button>
-      <p id="current-experience">{experience}</p>
+      <p id="current-page">{page}</p>
       <p id="current-name">{name}</p>
       <p id="current-isEmployee">{isEmployee ? 'true' : 'false'}</p>
     </>
@@ -103,6 +102,42 @@ yarn add use-url-sync
 ## ✔️ TypeScript Support
 
 This package contains an `index.d.ts` type definition file, so you can use it in TypeScript without extra configuration.
+
+```tsx
+  ...
+
+  const [page, setPage] = useUrlState<number>({
+    name: 'page',
+    defaultValue: 0,
+    onExists: (p: any) => parseInt(p, 10)
+  });
+  const [name, setName] = useUrlState<string>({
+    name: 'name',
+    defaultValue: ''
+  });
+
+  interface IStates {
+    page: number;
+    name: string;
+  }
+
+  useUrlSync<IStates>(
+    {
+      states: {
+        page,
+        name
+      },
+      ignore: {
+        page: (p: number) => p === 0
+      }
+    },
+    (nextPath: string) => {
+      location.replace(nextPath);
+    }
+  );
+
+  ...
+```
 
 ## 🏷️ LICENSE
 
