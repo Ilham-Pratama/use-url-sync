@@ -31,10 +31,7 @@ const App = () => {
       states: {
         name,
         experience,
-        isEmployee
-      },
-      onStatesUpdated: {
-        isEmployee: v => (v ? 'true' : 'false')
+        isEmployee: `${isEmployee}`
       },
       ignore: {
         experience: e => e === 0

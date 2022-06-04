@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import qs from 'qs';
 
 interface IUseUrlSyncProps<S> {
   states: S;
-  ignore?: { [P in keyof S]?: (s: S[P]) => boolean };
-  onStatesUpdated?: { [P in keyof S]?: (s: S[P]) => any };
+  ignore?: { [P in keyof S]?: boolean | ((value: S[P]) => boolean) };
+  onStatesUpdated?: { [P in keyof S]?: (value: S[P]) => S[P] };
 }
 
-const useUrlSync = <S extends Record<string | number, any>>(
+const useUrlSync = <S extends Record<string | number, string | number>>(
   { states, ignore = {}, onStatesUpdated = {} }: IUseUrlSyncProps<S>,
   onUrlGenerated: (nextPath: string) => void
 ): void => {
@@ -18,21 +17,25 @@ const useUrlSync = <S extends Record<string | number, any>>(
 
     Object.keys(states).forEach(key => {
       const value = states[key];
-      const shouldIgnoreState = ignore[key];
+      const shouldIgnore = ignore[key] || false; // Set default to false in case undefined
+      const shouldIgnoreState =
+        typeof shouldIgnore === 'boolean'
+          ? shouldIgnore
+          : shouldIgnore(value as any);
 
-      /* 
-        Checks for state's value validity
-      */
+      /* Checks for state's value validity */
       if (
-        shouldIgnoreState
-          ? !shouldIgnoreState(value)
+        typeof ignore[key] !== 'undefined'
+          ? !shouldIgnoreState
           : value !== null && value !== undefined && value !== ''
       ) {
         /* Checks if this state has a read function */
         const thisStateOnChange = onStatesUpdated[key];
-        if (thisStateOnChange) {
-          Object.assign(cleanedStates, { [key]: thisStateOnChange(value) });
-        } else Object.assign(cleanedStates, { [key]: value });
+        if (thisStateOnChange)
+          Object.assign(cleanedStates, {
+            [key]: thisStateOnChange(value as any)
+          });
+        else Object.assign(cleanedStates, { [key]: value });
       }
     });
 
@@ -41,7 +44,7 @@ const useUrlSync = <S extends Record<string | number, any>>(
     const nextPath = `${window.location.pathname}?${queryUrl}`;
 
     typeof onUrlGenerated === 'function' && onUrlGenerated(nextPath);
-  }, [states]);
+  }, [ignore, onStatesUpdated, onUrlGenerated, states]);
 };
 
 export default useUrlSync;
