@@ -10,7 +10,7 @@ Along with this package, you can do some awesome stuff, such as:
 
 ## 🖥️ Example
 
-Current path: `/user?name=andy&page=1&isEmployee=false`
+Let's say that the path is `/user?name=andy&page=1&isEmployee=false`
 
 ```jsx
 import React from 'react';
@@ -42,11 +42,7 @@ const App = () => {
       states: {
         name,
         page,
-        isEmployee
-      },
-      /* How the states will be displayed */
-      onStatesUpdated: {
-        isEmployee: v => (v ? 'true' : 'false')
+        isEmployee: `${isEmployee}`
       },
       /* Ignored conditions */
       ignore: {
